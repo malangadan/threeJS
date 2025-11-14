@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
+import * as dat from 'dat.gui'
 
 const renderer = new THREE.WebGLRenderer();
 
@@ -53,11 +53,35 @@ scene.add(box);
 
 camera.position.set(-10,30,30);
 
+let step = 0;
+let speed = 0.01;
+
 orbit.update();
 
-function animate() {
-    box.rotation.x += 0.01
-    box.rotation.y += 0.01
+const gui = new dat.GUI();
+
+const options = {
+    sphereColor: '#ffea00',
+    wireFrame: false,
+    speed: 0.01
+}
+
+gui.addColor(options,'sphereColor').onChange(function(e){
+    sphere.material.color.set(e);
+});
+
+gui.add(options, 'wireFrame').onChange(function(e){
+    sphere.material.wireframe = e;
+});
+
+gui.add(options, 'speed', 0, 0.1)
+
+function animate(time) {
+    box.rotation.x += time / 1000
+    box.rotation.y += time / 1000
+
+    step += options.speed;
+    sphere.position.y = 10 * Math.abs(Math.sin(step));
     renderer.render(scene, camera);
 }
 
