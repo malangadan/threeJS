@@ -29,11 +29,24 @@ const boxMaterial = new THREE.MeshBasicMaterial({color: 0x00FF00});
 const box = new THREE.Mesh(boxGeometry, boxMaterial);
 
 const planeGeometry = new THREE.PlaneGeometry(30,30);
-const planeMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF})
+const planeMaterial = new THREE.MeshBasicMaterial({
+    color: 0xFFFFFF,
+    side: THREE.DoubleSide
+})
 const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+plane.rotation.x = -0.5 * Math.PI;
+scene.add(plane);
 
+const sphereGeometry = new THREE.SphereGeometry(4,50,50);
+const sphereMaterial = new THREE.MeshBasicMaterial({
+    color: 0x0000FF,
+    wireframe: false
+})
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
+sphere.position.set(-10,10,0);
+scene.add(sphere);
 
-const gridHelper = new THREE.GridHelper();
+const gridHelper = new THREE.GridHelper(30);
 scene.add(gridHelper);
 
 scene.add(box);
